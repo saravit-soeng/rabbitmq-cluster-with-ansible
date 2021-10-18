@@ -11,6 +11,13 @@ First, set up inventory hosts that include all machines for building cluster
 192.168.0.11
 192.168.0.12
 
+[mq-workers]
+192.168.0.11
+192.168.0.12
+
+[mq-master]
+192.168.0.7
+
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
 ```
