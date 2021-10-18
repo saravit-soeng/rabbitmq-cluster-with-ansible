@@ -3,9 +3,6 @@
   vars_files:
     - ../vars/settings.yml
   tasks:
-    - name: enable mqtt on rabbitmq broker
-      shell: rabbitmq-plugins enable rabbitmq_mqtt
-  
     - name: specify the rabbitmq.conf path to the env file
       lineinfile:
         dest: /etc/rabbitmq/rabbitmq-env.conf
@@ -26,6 +23,6 @@
       systemd:
         name: rabbitmq-server
         state: restarted
-
-
-  
+    
+    - name: enable mqtt on rabbitmq broker
+      shell: rabbitmq-plugins enable rabbitmq_mqtt
