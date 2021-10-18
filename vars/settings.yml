@@ -1,0 +1,16 @@
+# define the master for other join the cluster
+master_cluster: nn1 # just the name of node/machine
+
+# define admin user for rabbitmq brokers
+admin_user: admin
+admin_pwd: admin12345
+
+# mqtt user
+mqtt_user: zzxb
+mqtt_pwd: zzxb12345
+
+# config file path
+config_file_path: /etc/rabbitmq
+
+# ssl directory on rabbitmq brokers
+ssl_path: /etc/rabbitmq/ssl

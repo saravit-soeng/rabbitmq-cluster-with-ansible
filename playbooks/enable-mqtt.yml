@@ -1,0 +1,31 @@
+- hosts: mq-cluster
+  become: yes
+  vars_files:
+    - ../vars/settings.yml
+  tasks:
+    - name: enable mqtt on rabbitmq broker
+      shell: rabbitmq-plugins enable rabbitmq_mqtt
+  
+    - name: specify the rabbitmq.conf path to the env file
+      lineinfile:
+        dest: /etc/rabbitmq/rabbitmq-env.conf
+        line: "RABBITMQ_CONFIG_FILE={{ config_file_path }}/rabbitmq.conf"
+    
+    - name: copy ssl to ssl path on rabbitmq brokers
+      copy:
+        src: ../ssl/
+        dest: "{{ ssl_path }}"
+
+    - name: create cofig file
+      template:
+        src: ../templates/rabbitmq.j2
+        dest: "{{ config_file_path }}/rabbitmq.conf"
+        mode: 0755
+
+    - name: restart rabbitmq brokers
+      systemd:
+        name: rabbitmq-server
+        state: restarted
+
+
+  

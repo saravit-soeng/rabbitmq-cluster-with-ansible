@@ -1,0 +1,10 @@
+*.jks
+
+tls-gen/*
+*.cer
+*.pem
+*.old
+*.p12
+
+__pycache__
+*.pyc

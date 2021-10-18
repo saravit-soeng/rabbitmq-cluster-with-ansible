@@ -1,0 +1,7 @@
+- hosts: mq-master
+  become: yes
+  vars_files:
+    - ../vars/settings.yml
+  tasks:
+    - name: create user for mqtt
+      shell: rabbitmqctl add_user {{ mqtt_user }} {{ mqtt_pwd }} && rabbitmqctl set_permissions -p / {{ mqtt_user }} ".*" ".*" ".*" && rabbitmqctl set_user_tags {{ mqtt_user }} management

@@ -1,0 +1,32 @@
+- hosts: mq-cluster
+  become: yes
+  tasks:
+    - name: add erlang public key
+      apt_key:
+        url: https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc
+        state: present
+    
+    - name: add erlang repository
+      apt_repository:
+        repo: deb https://packages.erlang-solutions.com/ubuntu xenial contrib
+        state: present
+      
+    - name: install erlang
+      apt:
+        name: erlang
+        state: present
+        update_cache: yes
+
+    - name: add rabbitmq key
+      apt_key:
+        url: https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
+        state: present
+    
+    - name: add rabbitmq repository manually
+      shell: wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.5/rabbitmq-server_3.9.5-1_all.deb && dpkg -i rabbitmq-server_3.9.5-1_all.deb && rm rabbitmq-server_3.9.5-1_all.deb
+    
+    - name: install rabbitmq server
+      apt:
+        update_cache: yes
+        name: rabbitmq-server
+        state: present

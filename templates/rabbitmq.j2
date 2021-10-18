@@ -1,0 +1,33 @@
+# this configuration file focuses on mqtt plugin only
+# because we have to create the conf file manually
+
+# default ssl port fo AMQP
+listeners.ssl.default = 5671
+
+mqtt.listeners.tcp.default = 1883
+## Default MQTT with TLS port is 8883
+mqtt.listeners.ssl.default = 8883
+
+# anonymous connections, if allowed, will use the default
+# credentials specified here
+mqtt.allow_anonymous  = false
+mqtt.default_user     = guest
+mqtt.default_pass     = guest
+
+mqtt.vhost            = /
+mqtt.exchange         = amq.topic
+# 24 hours by default
+mqtt.subscription_ttl = 86400000
+mqtt.prefetch         = 10
+
+# if quorum queues are not used, configure a lower max WAL segment
+# limit compared to the default of 512 MiB, e.g. 64 MiB
+raft.wal_max_size_bytes = 67108864
+
+ssl_options.cacertfile = {{ ssl_path }}/ca_certificate.pem
+ssl_options.certfile   = {{ ssl_path }}/server_certificate.pem
+ssl_options.keyfile    = {{ ssl_path }}/server_key.pem
+ssl_options.password   = 12345
+ssl_options.verify     = verify_peer
+ssl_options.fail_if_no_peer_cert  = true
+

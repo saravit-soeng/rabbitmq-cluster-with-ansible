@@ -1,0 +1,48 @@
+- hosts: mq-workers
+  become: yes
+  vars_files:
+    - ../vars/settings.yml
+  tasks:
+    - name: change mode of erlang cookie file
+      shell: chmod 600 /var/lib/rabbitmq/.erlang.cookie
+
+    - name: copy rabbitmq cookie from master to all rabbitmq servers # all rabbitmq servers must have the same cookie to set up cluster
+      copy:
+        src: ../config/.erlang.cookie
+        dest: /var/lib/rabbitmq/.erlang.cookie
+    
+    - name: restart rabbitmq service
+      systemd:
+        name: rabbitmq-server
+        state: restarted
+    
+    - name: stop rabbitmq application
+      shell: rabbitmqctl stop_app
+
+    - name: reset rabbitmq 
+      shell: rabbitmqctl reset
+    
+    - name: join the node to cluster
+      shell: rabbitmqctl join_cluster rabbit@{{ master_cluster }}
+
+    - name: start rabbitmq application
+      shell: rabbitmqctl start_app
+
+- hosts: mq-cluster
+  become: yes
+  vars_files:
+    - ../vars/settings.yml
+  tasks:
+    - name: configure rabbitmq ha policy
+      shell: rabbitmqctl set_policy ha-all "." '{"ha-mode":"all"}'
+
+    - name: enable rabbitmq_management
+      shell: rabbitmq-plugins enable rabbitmq_management
+
+- hosts: mq-master
+  become: yes
+  vars_files:
+    - ../vars/settings.yml
+  tasks:
+    - name: create user admin
+      shell: rabbitmqctl add_user {{ admin_user }} {{ admin_pwd }} && rabbitmqctl set_permissions -p / {{ admin_user }} ".*" ".*" ".*" && rabbitmqctl set_user_tags {{ admin_user }} administrator
