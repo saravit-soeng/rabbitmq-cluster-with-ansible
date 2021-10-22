@@ -32,7 +32,7 @@ After installed RabbitMQ server on each machine, now set up the cluster by copyi
 ansible-playbook -i inventory/hosts playbooks/setup-rabbitmq-cluster.yml
 ```
 
-Now the cluster of rabbitmq servers has been set up. Enable ssl/tls (how to create self-signed ssl/tls check this github link => https://github.com/michaelklishin/tls-gen) and MQTT plugin for extra usage and personal purpose
+Now the cluster of rabbitmq servers has been set up. Enable ssl/tls (how to create self-signed ssl/tls check this github link => https://github.com/michaelklishin/tls-gen, in case just copy all certificate generated to _ssl_ folder) and MQTT plugin for extra usage and personal purpose
 ```bash
 ansible-playbook -i inventory/hosts playbooks/enable-ssl-mqtt.yml
 ```
