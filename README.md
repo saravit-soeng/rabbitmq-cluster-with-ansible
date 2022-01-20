@@ -33,7 +33,7 @@ first we need copy erlang cookie from master machine into __config__ folder
 
 ```bash
  sudo cp /var/lib/rabbitmq/.erlang.cookie config/
-  sudo chown your_user:your_group config/.erlang.cookie
+ sudo chown your_user:your_group config/.erlang.cookie
 ```
 Then,
 ```bash
