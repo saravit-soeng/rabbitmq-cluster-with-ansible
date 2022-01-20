@@ -28,6 +28,14 @@ ansible-playbook -i inventory/hosts playbooks/install-rabbitmq-broker.yml
 ```
 
 After installed RabbitMQ server on each machine, now set up the cluster by copying all same cookie for all machines and restarting RabbitMQ servers
+
+first we need copy erlang cookie from master machine into __config__ folder
+
+```bash
+ sudo cp /var/lib/rabbitmq/.erlang.cookie config/
+  sudo chown your_user:your_group config/.erlang.cookie
+```
+Then,
 ```bash
 ansible-playbook -i inventory/hosts playbooks/setup-rabbitmq-cluster.yml
 ```
